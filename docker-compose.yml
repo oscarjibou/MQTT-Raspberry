@@ -1,0 +1,49 @@
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./influxdb/data:/var/lib/influxdb2
+      - ./influxdb/config:/etc/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=admin12345
+      - DOCKER_INFLUXDB_INIT_ORG=Tfg
+      - DOCKER_INFLUXDB_INIT_BUCKET=TFG
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=super-token-cambia-esto
+    networks: [tfg-net]
+    restart: unless-stopped
+
+  mqtt_to_influx:
+    build: ./app
+    container_name: mqtt_to_influx
+    depends_on: [influxdb]
+    environment:
+      - MQTT_HOST=192.168.50.2   # <-- tu IP Raspberry
+      - MQTT_PORT=1883
+      - MQTT_TOPIC=test/ejemplo/json
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=super-token-cambia-esto
+      - INFLUXDB_ORG=Tfg
+      - INFLUXDB_BUCKET=TFG
+    networks: [tfg-net]
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+    depends_on: [influxdb]
+    networks: [tfg-net]
+    restart: unless-stopped
+
+networks:
+  tfg-net:
+    driver: bridge
+
