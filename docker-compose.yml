@@ -22,7 +22,7 @@ services:
     container_name: mqtt_to_influx
     depends_on: [influxdb]
     environment:
-      - MQTT_HOST=192.168.50.2   # <-- tu IP Raspberry
+      - MQTT_HOST=192.168.1.140  # <-- tu IP Raspberry
       - MQTT_PORT=1883
       - MQTT_TOPIC=test/ejemplo/json
       - INFLUXDB_URL=http://influxdb:8086
