@@ -28,9 +28,9 @@ docker compose up --build -d
 
 Esto:
 
-* construye el contenedor `mqtt_to_influx`
-* levanta **InfluxDB + Grafana + mqtt_to_influx**
-* crea la red `tfg-net`
+- construye el contenedor `mqtt_to_influx`
+- levanta **InfluxDB + Grafana + mqtt_to_influx**
+- crea la red `tfg-net`
 
 ---
 
@@ -68,13 +68,8 @@ docker logs -f grafana
 
 ## 6️⃣ 🌐 Acceso web
 
-* **InfluxDB** → [http://localhost:8086](http://localhost:8086)
-* **Grafana** → [http://localhost:3000](http://localhost:3000)
-
-Credenciales:
-
-* InfluxDB: `admin / admin12345`
-* Grafana: `admin / admin`
+- **InfluxDB** → [http://localhost:8086](http://localhost:8086)
+- **Grafana** → [http://localhost:3000](http://localhost:3000)
 
 ---
 
@@ -129,5 +124,3 @@ MacBook (Docker)
   ├── influxdb        → almacena datos
   └── grafana         → visualiza datos
 ```
-
-
